@@ -1,5 +1,6 @@
 # Import modules
 import database as db
+import scraper as scrape
 
 # db.createTables()
 
@@ -9,3 +10,5 @@ import database as db
 
 # db.close()
 
+
+# scrape.TestUrl()

@@ -11,7 +11,7 @@ def createTables():
     try:
         cursor.execute("""
             CREATE TABLE MainData(
-                productCode varchar(7) PRIMARY KEY,
+                productCode text PRIMARY KEY,
                 name text NOT NULL,
                 inStock integer NOT NULL
             );
@@ -19,7 +19,7 @@ def createTables():
         cursor.execute("""
             CREATE TABLE Prices(
                 date datetime PRIMARY KEY,
-                productCode varchar(7),
+                productCode text,
                 regPrice float,
                 salePrice float,
                 FOREIGN KEY (productCode)
