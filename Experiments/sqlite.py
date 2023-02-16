@@ -58,25 +58,43 @@ cursorObj = con.cursor()
 # if not cursorObj.fetchall():
 #     print("ID 2 does not exist")
 
-# Catch SQL errors
+# # Catch SQL errors
+# try:
+#     entities = (2, 'andrew', 800, 'IT', 'Tech', '2018-02-06')
+#     cursorObj.execute("""
+#         INSERT INTO employees(
+#             id,
+#             name,
+#             salary,
+#             department,
+#             position,
+#             hireDate
+#         )
+#         VALUES(?,?,?,?,?,?)
+#     """,
+#         entities
+#     )
+#     con.commit()
+# except sqlite3.Error as error:
+#     print(error)
+
 try:
-    entities = (2, 'andrew', 800, 'IT', 'Tech', '2018-02-06')
+    idToFind = "y"
     cursorObj.execute("""
-        INSERT INTO employees(
-            id,
-            name,
-            salary,
-            department,
-            position,
-            hireDate
+        SELECT EXISTS(
+            SELECT id FROM employees WHERE id=?
         )
-        VALUES(?,?,?,?,?,?)
-    """,
-        entities
-    )
-    con.commit()
+    """, idToFind)
+    queryResult = cursorObj.fetchall()[0]
+    if queryResult == (0,):
+        print(None)
+    elif queryResult == (1,):
+        print('found')
+    else:
+        print('Unexpected response from database')
 except sqlite3.Error as error:
     print(error)
+
 
 
 # Close connect with database

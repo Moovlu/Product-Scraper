@@ -57,12 +57,12 @@ def AddProducts(URL:str):
                 # Check if item is on sale
                 if item.find("div", class_="oldprice"):
                     # Find product regular price
-                    itemDetails[3] = item.find("div", class_="oldprice").text.strip("Regular Price:")
+                    itemDetails[3] = float(item.find("div", class_="oldprice").text.strip("Regular Price: $"))
                     # Find product sale price
-                    itemDetails[4] = item.find("div", class_="sale-price").text.strip("Clearance Price:")
+                    itemDetails[4] = float(item.find("div", class_="sale-price").text.strip("Clearance Price: $"))
                 else:
                     # Find product regular price
-                    itemDetails[3] = item.find("div", class_="entity-product-price-wrap").text.strip("Price: ")
+                    itemDetails[3] = float(item.find("div", class_="entity-product-price-wrap").text.strip("Price: $"))
                     # There is no sale price for this product
                     itemDetails[4] = None
 
@@ -81,10 +81,23 @@ def AddProducts(URL:str):
             else:
                 print("Unidentified product on", URL)
 
-            # Write product to database
-            db.insertData(itemDetails[1],itemDetails[2],itemDetails[0])
-            # Write product price to database
-            db.insertPrices(datetime.today(), itemDetails[1], itemDetails[3], itemDetails[4])
+            # Check if product exists in database
+            if db.queryProductExistance(itemDetails[1]) == False:
+                # Write product to database
+                db.insertData(itemDetails[1],itemDetails[2],itemDetails[0])
+                print("Added item", itemDetails[1])
+                # Write product price to database
+                db.insertPrices(datetime.today(), itemDetails[1], itemDetails[3], itemDetails[4])
+                print("Added price", itemDetails[1])
+            else:
+                # Make sure the product's price isn't a duplicate to the most recent entry
+                if db.queryCurrentSalePrice(itemDetails[1]) != itemDetails[4]:
+                    db.insertPrices(datetime.today(), itemDetails[1], itemDetails[3], itemDetails[4])
+                    print("Adjusted sale price", itemDetails[1])
+                if db.queryCurrentPrice(itemDetails[1]) != itemDetails[3]:
+                    db.insertPrices(datetime.today(), itemDetails[1], itemDetails[3], itemDetails[4])
+                    print("Adjusted price", itemDetails[1])
+
         # Check if all pages have been parsed
         if (pagesParsed >= len(pages)):
             break
