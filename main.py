@@ -2,7 +2,7 @@
 import database as db
 import scraper as scrape
 
-# db.createTables()
+db.createTables()
 
 # db.insertData("AB12345","Sponge",1)
 
@@ -10,5 +10,8 @@ import scraper as scrape
 
 # db.close()
 
+# scrape.TestUrl("https://www.prowash.com.au/category/233/security")
 
-# scrape.TestUrl()
+# scrape.AddProducts("https://www.prowash.com.au/category/233/security")
+
+# Find valid categories, write to file

@@ -13,7 +13,7 @@ def createTables():
             CREATE TABLE MainData(
                 productCode text PRIMARY KEY,
                 name text NOT NULL,
-                inStock integer NOT NULL
+                inStock integer
             );
         """)
         cursor.execute("""

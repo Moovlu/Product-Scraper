@@ -1,6 +1,8 @@
 # Import modules
 import requests
 from bs4 import BeautifulSoup
+import database as db
+from datetime import datetime
 
 # Test variables
 URL = "https://www.prowash.com.au/category/235"
@@ -18,7 +20,7 @@ def TestUrl(URL:str):
         return True, None
 
 # Grab products from category
-def ReadProducts(URL:str):
+def AddProducts(URL:str):
     pages = []
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
@@ -34,26 +36,60 @@ def ReadProducts(URL:str):
     pagesParsed = 1
     while True:
         
+        # Find all products on page
         products = soup.find_all("div", class_="entity-page-product")
-        #TODO: Put try loop here
+
         for item in products:
-            # Check if product is in stock or not
-            if item.find("entity-product-stock-wrap"):
-                print("found it")
+        # Stock, Product code, Product name, Regular price, Sale price
+            itemDetails = [None, None, None, None, None]
 
+        #Identify if product is available in store
+            if item.find("div", class_="entity-product-stock-wrap"):               
+                # Find stock status
+                if item.find("div", class_="stock-hint").text.strip() == "In Stock":
+                    itemDetails[0] = 1
+                else:
+                    itemDetails[0] = 0
+                # Find product code
+                itemDetails[1] = item.find("div", class_="entity-product-stock-wrap").text.strip().lstrip("Out of Stock").lstrip("In Stock\r\nCode:").strip()
+                # Find product name
+                itemDetails[2] = item.find("div", class_="entity-product-name-wrap").text
+                # Check if item is on sale
+                if item.find("div", class_="oldprice"):
+                    # Find product regular price
+                    itemDetails[3] = item.find("div", class_="oldprice").text.strip("Regular Price:")
+                    # Find product sale price
+                    itemDetails[4] = item.find("div", class_="sale-price").text.strip("Clearance Price:")
+                else:
+                    # Find product regular price
+                    itemDetails[3] = item.find("div", class_="entity-product-price-wrap").text.strip("Price: ")
+                    # There is no sale price for this product
+                    itemDetails[4] = None
 
+        #Check if product is online order only
+            elif item.find("div", class_="call-to-order-wrap"):
+                # No stock status
+                itemDetails[0] = None
+                # Find product code
+                itemDetails[1] = item.text.split("\n")[3].lstrip(" Code:").rstrip("\r")
+                # Find product name
+                itemDetails[2] = item.find("div", class_="entity-product-name-wrap").text.strip()
+                # No regular price
+                itemDetails[3] = None
+                # No sale price
+                itemDetails[4] = None
+            else:
+                print("Unidentified product on", URL)
 
+            # Write product to database
+            db.insertData(itemDetails[1],itemDetails[2],itemDetails[0])
+            # Write product price to database
+            db.insertPrices(datetime.today(), itemDetails[1], itemDetails[3], itemDetails[4])
         # Check if all pages have been parsed
-        if (pagesParsed > len(pages)):
+        if (pagesParsed >= len(pages)):
             break
         else:
             # Parse next page
             page = requests.get(pages[pagesParsed])
             soup = BeautifulSoup(page.content, "html.parser")
             pagesParsed += 1
-
-        # Product code, name, status, regular price, sale price
-
-
-
-ReadProducts("https://www.prowash.com.au/category/233/security")
