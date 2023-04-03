@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
-    <height>299</height>
+    <width>544</width>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,231 +31,276 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QFrame" name="frame">
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-       </font>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(38, 41, 52);
-border: 2px solid #212121;
-border-radius: 20px;</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-           <pointsize>30</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border: none</string>
-         </property>
-         <property name="text">
-          <string>Could not find valid categories</string>
-         </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QTabWidget" name="tabWidget">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <widget class="QWidget" name="product_categories">
+         <attribute name="title">
+          <string>Product Categories</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="lblProductCategories">
+            <property name="text">
+             <string>Product Categories</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <widget class="QLabel" name="lblLoadedCategories">
+                <property name="text">
+                 <string>Loaded Categories</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPlainTextEdit" name="txtLoaded">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblLoadedStatus">
+                <property name="text">
+                 <string>Loaded Status Placeholder</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_2">
+              <item>
+               <widget class="QLabel" name="lblFindCategoriesOnline">
+                <property name="text">
+                 <string>Find Categories Online</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPlainTextEdit" name="txtFound">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblFoundStatus">
+                <property name="text">
+                 <string>Found Categories Placeholder</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_2">
+                <item>
+                 <widget class="QLabel" name="lblMaximumText">
+                  <property name="text">
+                   <string>Max category num to check:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSpinBox" name="spnMaxCategories">
+                  <property name="maximum">
+                   <number>999</number>
+                  </property>
+                  <property name="value">
+                   <number>300</number>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnBeginSearch">
+                <property name="text">
+                 <string>Begin Search</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-           <pointsize>16</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border: none;
-color: rgb(158, 158, 158);</string>
-         </property>
-         <property name="text">
-          <string>You can either generate a new list or find the file manually</string>
-         </property>
+        <widget class="QWidget" name="product_changes">
+         <attribute name="title">
+          <string>Product Changes</string>
+         </attribute>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QLabel" name="lblProductChanges">
+            <property name="text">
+             <string>Product Changes</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_7">
+              <item>
+               <widget class="QLabel" name="lblChangelog">
+                <property name="text">
+                 <string>Change log</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPlainTextEdit" name="txtChangelog">
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_5">
+              <item>
+               <widget class="QLabel" name="lblStatus">
+                <property name="text">
+                 <string>Status</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblCategoriesLoaded">
+                <property name="text">
+                 <string>Categories loaded: 0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblKnownProducts">
+                <property name="text">
+                 <string>Known Products: 0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblCurrentDate">
+                <property name="text">
+                 <string>Current Date: 0000/00/00</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_6">
+                <property name="topMargin">
+                 <number>10</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>10</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="lblDatabaseStatus">
+                  <property name="text">
+                   <string>Placeholder database status</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblCategoriesStatus">
+                  <property name="text">
+                   <string>Placeholder categories status</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <item>
+                 <widget class="QLabel" name="lblDelay">
+                  <property name="text">
+                   <string>Delay:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="spnDelay">
+                  <property name="maximum">
+                   <double>5.000000000000000</double>
+                  </property>
+                  <property name="singleStep">
+                   <double>0.100000000000000</double>
+                  </property>
+                  <property name="value">
+                   <double>1.000000000000000</double>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="lblSeconds">
+                  <property name="text">
+                   <string>Seconds</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btnDelayHint">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>23</width>
+                    <height>23</height>
+                   </size>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>WhatsThisCursor</cursorShape>
+                  </property>
+                  <property name="text">
+                   <string>?</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnBeginScrape">
+                <property name="text">
+                 <string>Begin scraping products</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Maximum</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="btnGenerateList">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>130</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="baseSize">
-            <size>
-             <width>130</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-	border: 1px solid #32aa9c;
-    border-radius: 6px;
-	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(44, 189, 146, 255), stop:1 rgba(55, 204, 166, 255));
-    min-width: 80px;
-	color: rgb(15, 15, 15);
-}
-
-QPushButton:pressed {
-	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(64, 209, 166, 255), stop:1 rgba(75, 224, 186, 255));
-}
-QPushButton:hover{
-	border: 1px solid #a0dda5
-}</string>
-           </property>
-           <property name="text">
-            <string>Generate a new list</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="btnLocateFile">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>130</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="baseSize">
-            <size>
-             <width>130</width>
-             <height>25</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <family>Segoe UI</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton {
-    border: 2px solid #212121;
-    border-radius: 6px;
-	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(38, 41, 52, 255), stop:1 rgba(52, 56, 72, 255));
-    min-width: 80px;
-	color: rgb(243, 245, 245);
-}
-
-QPushButton:pressed {
-	background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(58, 61, 72, 255), stop:1 rgba(72, 76, 82, 255));
-}
-QPushButton:hover{
-	border: 1px solid #2cbd92
-}</string>
-           </property>
-           <property name="text">
-            <string>Locate file</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QProgressBar" name="pbListOutput">
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="value">
-          <number>0</number>
-         </property>
-         <property name="textVisible">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="lblListOutput">
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-           <pointsize>10</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">border: none</string>
-         </property>
-         <property name="text">
-          <string>File missing</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="txtLog">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
