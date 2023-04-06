@@ -1,34 +1,44 @@
-# Import modules
 import database as db
 import scraper as scrape
+import graphics as gui
 import time
+import sys
+from PyQt5.QtWidgets import QApplication
 
 # Default variables
-categoriesToCheck = 300
-TimeDelayBetweenCategories = 1
+cats_to_check = 300
+time_between_cats = 1.0
+cat_file = "validcategories.txt"
 
 # Find which categories are valid
 def checkCategories():
     # Clear the text file
-    clearFile = open('validcategories.txt', 'w')
-    clearFile.close()
+    clear_file = open(cat_file, 'w')
+    clear_file.close()
 
-    with open('validcategories.txt', 'a') as file:
+    with open(cat_file, 'a') as file:
         # Iterate through categories
-        for currentCategory in range(categoriesToCheck):
-            print("attempting","https://www.prowash.com.au/category/"+str(currentCategory))
-            if scrape.TestUrl("https://www.prowash.com.au/category/"+str(currentCategory))[0] == True:
-                file.write("https://www.prowash.com.au/category/"+str(currentCategory)+"\n")
+        for curr_cat in range(cats_to_check):
+            print(f"attempting https://www.prowash.com.au/category/{curr_cat}")
+            cat_attempt = scrape.TestCategory("https://www.prowash.com.au/category/"+str(curr_cat))[0]
+            if cat_attempt:
+                file.write(f"https://www.prowash.com.au/category/{curr_cat}\n")
                 print("Found!")
-            time.sleep(TimeDelayBetweenCategories)
+            time.sleep(time_between_cats)
 
-db.createTables()
-checkCategories()
 
-# scrape.AddProducts("https://www.prowash.com.au/category/233/security")
+"""
+#######################################
+Main section
+#######################################
+"""
 
-# print(db.queryCurrentSalePrice('DH29141'))
+# Start UI
+app = QApplication(sys.argv)
+win = gui.Window()
+win.show()
 
-# Find valid categories, write to file
+win.update_date("what a cool date")
 
-# db.close()
+
+sys.exit(app.exec())
