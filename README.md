@@ -1,5 +1,3 @@
-># ⚠️ This program is unfinished and does <ins>not</ins> currently work.
-
 # Overview
 This program has been created for a family member to webscrape their competitor's product details from their website using the python requests library, store any changes or new products in an sqlite database, and then report these changes to the user through GUI. It may be a bit rough in areas.
 
