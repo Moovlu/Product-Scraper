@@ -112,6 +112,19 @@ def queryCurrentSalePrice(product_code:str):
     except sqlite3.Error as error:
         print(error)
 
+# Query amount of products in database
+def query_product_amount():
+    try:
+        cursor.execute("""
+            SELECT COUNT(*)
+            FROM MainData""")
+
+        query_result = cursor.fetchall()
+        query_filtered = query_result[0][0]
+        return query_filtered
+    except sqlite3.Error as error:
+        print(error)
+
 # Close database
 def close():
     con.close()
@@ -120,8 +133,8 @@ def close():
 # Test Case
 if __name__ == '__main__':
     # Test variables
-    product_code = "test_productcode"
-    product_name = "test-product"
+    product_code = "test_productcode3"
+    product_name = "test-product3"
     in_stock = 1
     product_price = 10
     sale_price = 0
@@ -144,4 +157,7 @@ if __name__ == '__main__':
     print("Get sale price")
     print(f"Sale price: {queryCurrentSalePrice(product_code)}") # Get current sale price
 
+    print("Count database items")
+    print(f"Number of items: {query_product_amount()}")
+    
     close() # Close database

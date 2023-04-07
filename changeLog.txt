@@ -1,0 +1,63 @@
+##############################
+Changes (2023-04-07)
+##############################
+
+New products:
+	+ testproduct1
+	+ testproduct2
+
+Changed products:
+	+ testchange
+	+ testchange2
+
+New products on sale:
+	+ sale1
+	+ sale2
+
+##############################
+Changes (2023-04-07)
+##############################
+
+New products:
+	+ testproduct1
+	+ testproduct2
+
+Changed products:
+	+ testchange
+	+ testchange2
+
+New products on sale:
+	+ sale1
+	+ sale2
+
+##############################
+Changes (2023-04-07)
+##############################
+
+New products:
+
+Changed products:
+
+New products on sale:
+
+##############################
+Changes (2023-04-07)
+##############################
+
+New products:
+
+Changed products:
+
+New products on sale:
+
+##############################
+Changes (2023-04-07)
+##############################
+
+New products:
+
+Changed products:
+
+New products on sale:
+
+Test changelog!

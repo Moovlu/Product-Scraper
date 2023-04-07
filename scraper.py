@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 # Test if current site is valid
-def testCategory(URL:str):
+def test_category(URL:str):
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
     
@@ -17,7 +17,7 @@ def testCategory(URL:str):
         return True, None
 
 # Check for multiple pages
-def multiplePageCheck(soup:str):
+def multiple_page_check(soup:str):
     pages = []
     page_selection = soup.find_all("ul", class_="pagination")
     if page_selection != []:
@@ -28,12 +28,12 @@ def multiplePageCheck(soup:str):
     return pages
     
 # Grab products from category
-def addProducts(URL:str):
+def add_products(URL:str):
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
 
     # Check for multiple pages
-    pages = multiplePageCheck(soup)
+    pages = multiple_page_check(soup)
     pages_parsed = 1
 
     while True:
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     URL = "https://www.prowash.com.au/category/235"
 
     print("Testing categories")
-    testCategory(URL) # Makes sure URL category is valid, returns (T/F, Errormsg)
+    test_category(URL) # Makes sure URL category is valid, returns (T/F, Errormsg)
 
     print("Appending category to database")
-    addProducts("https://www.prowash.com.au/category/235") # Appends products found on page to database
+    add_products("https://www.prowash.com.au/category/235") # Appends products found on page to database
