@@ -29,6 +29,12 @@ def multiple_page_check(soup:str):
     
 # Grab products from category
 def add_products(URL:str):
+    additions = {}
+    before_changes = {}
+    changes = {}
+    before_sales = {}
+    sales = {}
+
     page = requests.get(URL)
     soup = BeautifulSoup(page.content, "html.parser")
 
@@ -58,12 +64,12 @@ def add_products(URL:str):
                 # Check if item is on sale
                 if item.find("div", class_="oldprice"):
                     # Find product regular price
-                    item_details[3] = float(item.find("div", class_="oldprice").text.strip("Regular Price: $"))
+                    item_details[3] = float(item.find("div", class_="oldprice").text.strip("Regular Price: $").replace(",",""))
                     # Find product sale price
-                    item_details[4] = float(item.find("div", class_="sale-price").text.strip("Clearance Price: $"))
+                    item_details[4] = float(item.find("div", class_="sale-price").text.strip("Clearance Price: $").strip("On Sale For: $").strip("Price: $").replace(",",""))
                 else:
                     # Find product regular price
-                    item_details[3] = float(item.find("div", class_="entity-product-price-wrap").text.strip("Price: $"))
+                    item_details[3] = float(item.find("div", class_="entity-product-price-wrap").text.strip("Price: $").replace(",",""))
                     # There is no sale price for this product
                     item_details[4] = None
 
@@ -84,6 +90,8 @@ def add_products(URL:str):
 
             # Check if product exists in database
             if db.queryProductExistance(item_details[1]) == False:
+                # Write to additions dictionary
+                additions[item_details[1]] = [item_details[0], item_details[2], item_details[3], item_details[4]]
                 # Write product to database
                 db.insertData(item_details[1],item_details[2],item_details[0])
                 print("Added item", item_details[1])
@@ -93,11 +101,17 @@ def add_products(URL:str):
             else:
                 # Make sure the product's price isn't a duplicate to the most recent entry
                 if db.queryCurrentSalePrice(item_details[1]) != item_details[4]:
+                    before_sales[item_details[1]] = db.queryCurrentSalePrice(item_details[1])
+                    sales[item_details[1]] = item_details[4]
                     db.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
                     print("Adjusted sale price", item_details[1])
+
                 if db.queryCurrentPrice(item_details[1]) != item_details[3]:
+                    before_changes[item_details[1]] = db.queryCurrentPrice(item_details[1])
+                    changes[item_details[1]] = item_details[3]
                     db.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
                     print("Adjusted price", item_details[1])
+
 
         # Check if all pages have been parsed
         if (pages_parsed >= len(pages)):
@@ -107,6 +121,7 @@ def add_products(URL:str):
             page = requests.get(pages[pages_parsed])
             soup = BeautifulSoup(page.content, "html.parser")
             pages_parsed += 1
+    return additions, before_changes, changes, before_sales, sales
 
 
 # Test Case

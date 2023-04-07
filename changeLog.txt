@@ -3,32 +3,18 @@ Changes (2023-04-07)
 ##############################
 
 New products:
-	+ testproduct1
-	+ testproduct2
 
-Changed products:
-	+ testchange
-	+ testchange2
+Regular price changes:
+	+ PDQ06050119 - None -> 2252.0
+	+ PKW5 - None -> 125.0
+	+ PDQ03230091 - None -> 180.0
+	+ PDQKIT001 - None -> 145.0
+	+ PDQKIT003 - None -> 145.0
+	+ PDQKIT002 - None -> 100.0
 
-New products on sale:
-	+ sale1
-	+ sale2
-
-##############################
-Changes (2023-04-07)
-##############################
-
-New products:
-	+ testproduct1
-	+ testproduct2
-
-Changed products:
-	+ testchange
-	+ testchange2
-
-New products on sale:
-	+ sale1
-	+ sale2
+Sale price changes:
+	+ PDQ06050119 - None -> 2026.8
+	+ PKW5 - None -> 115.0
 
 ##############################
 Changes (2023-04-07)
@@ -36,19 +22,17 @@ Changes (2023-04-07)
 
 New products:
 
-Changed products:
+Regular price changes:
+	+ PDQ06050119 - None -> 2252.0
+	+ PKW5 - None -> 125.0
+	+ PDQ03230091 - None -> 180.0
+	+ PDQKIT001 - None -> 145.0
+	+ PDQKIT003 - None -> 145.0
+	+ PDQKIT002 - None -> 100.0
 
-New products on sale:
-
-##############################
-Changes (2023-04-07)
-##############################
-
-New products:
-
-Changed products:
-
-New products on sale:
+Sale price changes:
+	+ PDQ06050119 - None -> 2026.8
+	+ PKW5 - None -> 115.0
 
 ##############################
 Changes (2023-04-07)
@@ -56,8 +40,15 @@ Changes (2023-04-07)
 
 New products:
 
-Changed products:
+Regular price changes:
+	+ PDQ06050119 - None -> 2252.0
+	+ PKW5 - None -> 125.0
+	+ PDQ03230091 - None -> 180.0
+	+ PDQKIT001 - None -> 145.0
+	+ PDQKIT003 - None -> 145.0
+	+ PDQKIT002 - None -> 100.0
 
-New products on sale:
+Sale price changes:
+	+ PDQ06050119 - None -> 2026.8
+	+ PKW5 - None -> 115.0
 
-Test changelog!
