@@ -7,6 +7,7 @@ from datetime import datetime
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.QtCore import QThread, QObject, pyqtSignal
 from PyQt5 import QtTest
+from PyQt5.QtGui import QTextCursor
 from gui import Ui_MainWindow
 
 # Default variables
@@ -101,6 +102,8 @@ class ScrapingWorker(QObject):
     current_url = pyqtSignal(str)
 
     def run(self):
+        self.database = db.Database()
+        time_between_requests = win.spnDelay.value()
         additions = {}
         before_changes = {}
         after_changes = {}
@@ -112,12 +115,13 @@ class ScrapingWorker(QObject):
             for line in file.readlines():
                 self.current_url.emit(f"Parsing {line.strip()}")
                 # Update database and append item changes and additions to dicts
-                t_additions, t_before_changes, t_after_changes, t_before_sales, t_after_sales = scrape.add_products(line.strip())
+                t_additions, t_before_changes, t_after_changes, t_before_sales, t_after_sales = scrape.add_products(line.strip(), self.database)
                 additions.update(t_additions)
                 before_changes.update(t_before_changes)
                 after_changes.update(t_after_changes)
                 before_sales.update(t_before_sales)
                 after_sales.update(t_after_sales)
+                time.sleep(time_between_requests)
         # Write changes and additions to log
         prepend_changelog(additions, before_changes, after_changes, before_sales, after_sales)
         self.finished.emit()
@@ -160,6 +164,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.btnBeginSearch.setDisabled(True)
         self.btnBeginScrape.setDisabled(True)
+        self.spnDelay.setDisabled(True)
         self.thread.finished.connect(self.finished_categories)
 
     def cat_valid_url(self, text):
@@ -171,6 +176,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.update_found_categories_status("Not currently finding categories.")
         self.update_categories_loaded(count_categories())
         self.update_loaded_categories(read_categories())
+        self.spnDelay.setEnabled(True)
         if count_categories() > 0:
             self.update_loaded_status("Product categories are loaded")
             self.btnBeginScrape.setEnabled(True)
@@ -190,6 +196,7 @@ class Window(QMainWindow, Ui_MainWindow):
 
         self.btnBeginSearch.setDisabled(True)
         self.btnBeginScrape.setDisabled(True)
+        self.spnDelay.setDisabled(True)
         self.thread.finished.connect(self.finished_scrape)
 
     def log_current_category(self, text):
@@ -198,8 +205,9 @@ class Window(QMainWindow, Ui_MainWindow):
     def finished_scrape(self):
         self.btnBeginSearch.setEnabled(True)
         self.btnBeginScrape.setEnabled(True)
+        self.spnDelay.setEnabled(True)
         self.update_changelog(read_changelog())
-        self.update_known_products(db.query_product_amount())
+        self.update_known_products(data.query_product_amount())
 
     # Show messagebox explaining delay in scraping
     def delay_hint(self):
@@ -233,11 +241,13 @@ class Window(QMainWindow, Ui_MainWindow):
     def update_found_categories_list(self, text:str):
         previous_text = self.txtFound.toPlainText()
         current_text = previous_text + text + "\n"
+        self.txtFound.moveCursor(QTextCursor.End)
         self.txtFound.setPlainText(current_text)
     def update_log(self, text:str):
         previous_text = self.txtLog.toPlainText()
         current_text = previous_text + text + "\n"
         self.txtLog.setPlainText(current_text)
+        self.txtLog.moveCursor(QTextCursor.End)
         print(f"logged: {text}")
 
     def no_categories(self):
@@ -259,9 +269,10 @@ def display_messagebox(title:str, message:str):
 Main
 #######################################
 """
-# Prepare GUI
+# Prepare GUI and create database instance
 app = QApplication(sys.argv)
 win = Window()
+data = db.Database()
 
 # Check for categories and database
 if not os.path.exists(cat_file) or count_categories() == 0: 
@@ -272,17 +283,17 @@ else:
 
 if os.stat("products.db").st_size == 0:
     display_messagebox("Missing product database", "'products.db' was not found in the current working directory. A new database will be generated now. Feel free to replace the new database with the old.")
-    db.createTables()
+    data.createTables()
 
 # Initialise GUI
 win.update_categories_loaded(count_categories())
 win.update_loaded_categories(read_categories())
 win.update_found_categories_status("Not currently finding categories.")
-win.update_known_products(db.query_product_amount())
+win.update_known_products(data.query_product_amount())
 win.update_date(datetime.today().strftime('%Y-%m-%d'))
 win.update_changelog(read_changelog())
 
-if db.query_product_amount() == 0:
+if data.query_product_amount() == 0:
     win.update_database_status("Database empty")
 else:
     win.update_database_status("Database contains product(s)")

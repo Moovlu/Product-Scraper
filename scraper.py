@@ -28,7 +28,7 @@ def multiple_page_check(soup:str):
     return pages
     
 # Grab products from category
-def add_products(URL:str):
+def add_products(URL:str, database):
     additions = {}
     before_changes = {}
     changes = {}
@@ -89,27 +89,27 @@ def add_products(URL:str):
                 print("Unidentified product on", URL)
 
             # Check if product exists in database
-            if db.queryProductExistance(item_details[1]) == False:
+            if database.queryProductExistance(item_details[1]) == False:
                 # Write to additions dictionary
                 additions[item_details[1]] = [item_details[0], item_details[2], item_details[3], item_details[4]]
                 # Write product to database
-                db.insertData(item_details[1],item_details[2],item_details[0])
+                database.insertData(item_details[1],item_details[2],item_details[0])
                 print("Added item", item_details[1])
                 # Write product price to database
-                db.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
+                database.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
                 print("Added price", item_details[1])
             else:
                 # Make sure the product's price isn't a duplicate to the most recent entry
-                if db.queryCurrentSalePrice(item_details[1]) != item_details[4]:
-                    before_sales[item_details[1]] = db.queryCurrentSalePrice(item_details[1])
+                if database.queryCurrentSalePrice(item_details[1]) != item_details[4]:
+                    before_sales[item_details[1]] = database.queryCurrentSalePrice(item_details[1])
                     sales[item_details[1]] = item_details[4]
-                    db.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
+                    database.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
                     print("Adjusted sale price", item_details[1])
 
-                if db.queryCurrentPrice(item_details[1]) != item_details[3]:
-                    before_changes[item_details[1]] = db.queryCurrentPrice(item_details[1])
+                if database.queryCurrentPrice(item_details[1]) != item_details[3]:
+                    before_changes[item_details[1]] = database.queryCurrentPrice(item_details[1])
                     changes[item_details[1]] = item_details[3]
-                    db.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
+                    database.insertPrices(datetime.today(), item_details[1], item_details[3], item_details[4])
                     print("Adjusted price", item_details[1])
 
 
@@ -126,10 +126,11 @@ def add_products(URL:str):
 
 # Test Case
 if __name__ == "__main__":
+    data = db.Database()
     URL = "https://www.prowash.com.au/category/235"
 
     print("Testing categories")
     test_category(URL) # Makes sure URL category is valid, returns (T/F, Errormsg)
 
     print("Appending category to database")
-    add_products("https://www.prowash.com.au/category/235") # Appends products found on page to database
+    add_products("https://www.prowash.com.au/category/235", data) # Appends products found on page to database
