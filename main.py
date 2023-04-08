@@ -62,7 +62,7 @@ def prepend_changelog(additions:dict, before_changes:dict, after_changes:dict, b
     for sale in before_sales:
         prepend_data += f"\t+ {sale} - {before_sales[sale]} -> {after_sales[sale]}\n"
     # prepend data to changelog
-    with open(changelog, "r+") as file:
+    with open(changelog, "r+", encoding='utf-8') as file:
         content = file.read()
         file.seek(0,0)
         file.write(prepend_data + "\n" + content)
