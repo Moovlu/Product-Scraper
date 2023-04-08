@@ -11,4 +11,14 @@ This program uses a simple sqlite database to store products, it follows the fol
 ## Graphical User Interface
 The GUI of this program is created through PyQt5 with some basic stylesheets.
 
-> Readme still WIP
+## Graphical Interface
+Placeholder
+
+## Web Scraper
+Placeholder
+
+# To be Added in v1.1
+- Use an .ini file to store file directories, usernames and passwords, etc
+- List changes in stock status in changelog
+- Email all new changelog through a gmail account
+- Maybe implement a product search / show data page
