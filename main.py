@@ -6,7 +6,6 @@ import os
 from datetime import datetime
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.QtCore import QThread, QObject, pyqtSignal
-from PyQt5 import QtTest
 from PyQt5.QtGui import QTextCursor
 from gui import Ui_MainWindow
 
@@ -89,7 +88,7 @@ class CategoryWorker(QObject):
         # Iterate through categories
             for curr_cat in range(cats_to_check):
                 self.current_url.emit(f"Attempting https://www.prowash.com.au/category/{curr_cat}")
-                cat_attempt = scrape.test_category("https://www.prowash.com.au/category/"+str(curr_cat))[0]
+                cat_attempt = scrape.test_category(f"https://www.prowash.com.au/category/{curr_cat}")[0]
                 if cat_attempt:
                     file.write(f"https://www.prowash.com.au/category/{curr_cat}\n")
                     self.valid_url.emit(f"https://www.prowash.com.au/category/{curr_cat}")
@@ -168,7 +167,7 @@ class Window(QMainWindow, Ui_MainWindow):
         self.thread.finished.connect(self.finished_categories)
 
     def cat_valid_url(self, text):
-        self.update_log(text)
+        self.update_log(f"Found {text}")
         self.update_found_categories_list(text)
 
     def finished_categories(self):
@@ -208,6 +207,10 @@ class Window(QMainWindow, Ui_MainWindow):
         self.spnDelay.setEnabled(True)
         self.update_changelog(read_changelog())
         self.update_known_products(data.query_product_amount())
+        if data.query_product_amount() == 0:
+            win.update_database_status("Database empty")
+        else:
+            win.update_database_status("Database contains product(s)")
 
     # Show messagebox explaining delay in scraping
     def delay_hint(self):

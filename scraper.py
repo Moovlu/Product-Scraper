@@ -51,45 +51,50 @@ def add_products(URL:str, database):
             item_details = [None, None, None, None, None]
 
             # Identify if product is available in store
-            if item.find("div", class_="entity-product-stock-wrap"):               
-                # Find stock status
-                if item.find("div", class_="stock-hint").text.strip() == "In Stock":
-                    item_details[0] = 1
-                else:
-                    item_details[0] = 0
-                # Find product code
-                item_details[1] = item.find("div", class_="entity-product-stock-wrap").text.strip().lstrip("Out of Stock").lstrip("In Stock\r\nCode:").strip()
-                # Find product name
-                item_details[2] = item.find("div", class_="entity-product-name-wrap").text
-                # Check if item is on sale
-                if item.find("div", class_="oldprice"):
-                    # Find product regular price
-                    item_details[3] = float(item.find("div", class_="oldprice").text.strip("Regular Price: $").replace(",",""))
-                    # Find product sale price
-                    item_details[4] = float(item.find("div", class_="sale-price").text.strip("Clearance Price: $").strip("On Sale For: $").strip("Price: $").replace(",",""))
-                else:
-                    # Find product regular price
-                    item_details[3] = float(item.find("div", class_="entity-product-price-wrap").text.strip("Price: $").replace(",",""))
-                    # There is no sale price for this product
+            try:
+                if item.find("div", class_="entity-product-stock-wrap"):               
+                    # Find stock status
+                    if item.find("div", class_="stock-hint").text.strip() == "In Stock":
+                        item_details[0] = 1
+                    else:
+                        item_details[0] = 0
+                    # Find product code
+                    item_details[1] = item.find("div", class_="entity-product-stock-wrap").text.strip().lstrip("Out of Stock").lstrip("In Stock\r\nCode:").strip()
+                    # Find product name
+                    item_details[2] = item.find("div", class_="entity-product-name-wrap").text
+                    # Check if item is on sale
+                    if item.find("div", class_="oldprice"):
+                        # Find product regular price
+                        item_details[3] = float(item.find("div", class_="oldprice").text.strip("Regular Price: $").replace(",",""))
+                        # Find product sale price
+                        item_details[4] = float(item.find("div", class_="sale-price").text.strip("Clearance Price: $").strip("On Sale For: $").strip("Price: $").replace(",",""))
+                    else:
+                        # Find product regular price
+                        item_details[3] = float(item.find("div", class_="entity-product-price-wrap").text.strip("Price: $").replace(",",""))
+                        # There is no sale price for this product
+                        item_details[4] = None
+
+                # Check if product is online order only
+                elif item.find("div", class_="call-to-order-wrap"):
+                    # No stock status
+                    item_details[0] = None
+                    # Find product code
+                    item_details[1] = item.text.split("\n")[3].lstrip(" Code:").rstrip("\r")
+                    # Find product name
+                    item_details[2] = item.find("div", class_="entity-product-name-wrap").text.strip()
+                    # No regular price
+                    item_details[3] = None
+                    # No sale price
                     item_details[4] = None
+                else:
+                    print("Unidentified product on", URL)
+            except ValueError:
+                print(f"Product does not conform to common format: {item}")
 
-            # Check if product is online order only
-            elif item.find("div", class_="call-to-order-wrap"):
-                # No stock status
-                item_details[0] = None
-                # Find product code
-                item_details[1] = item.text.split("\n")[3].lstrip(" Code:").rstrip("\r")
-                # Find product name
-                item_details[2] = item.find("div", class_="entity-product-name-wrap").text.strip()
-                # No regular price
-                item_details[3] = None
-                # No sale price
-                item_details[4] = None
-            else:
-                print("Unidentified product on", URL)
-
+            if item_details[1] is None:
+                print("Skipping...")
             # Check if product exists in database
-            if database.queryProductExistance(item_details[1]) == False:
+            elif database.queryProductExistance(item_details[1]) is False:
                 # Write to additions dictionary
                 additions[item_details[1]] = [item_details[0], item_details[2], item_details[3], item_details[4]]
                 # Write product to database

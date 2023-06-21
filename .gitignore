@@ -24,3 +24,5 @@ Thumbs.db
 *.db
 validCategories.txt
 changeLog.txt
+build/
+main.spec
