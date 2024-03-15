@@ -11,6 +11,8 @@ This program uses a simple sqlite database to store products, it follows the fol
 ## Graphical User Interface
 The GUI of this program is created through PyQt5 with some basic stylesheets.
 
+![Image of main user interface](readme/MainUI.png)
+
 ## Graphical Interface
 Placeholder
 
